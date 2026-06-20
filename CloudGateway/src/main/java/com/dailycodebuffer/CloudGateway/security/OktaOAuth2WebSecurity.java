@@ -13,9 +13,15 @@ public class OktaOAuth2WebSecurity {
     @Bean
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
         http
-                .authorizeExchange()
-                .anyExchange().authenticated()
-                .and()
+                .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/login/oauth2/**"
+                        ).permitAll()
+                        .anyExchange().authenticated())
                 .oauth2Login()
                 .and()
                 .oauth2ResourceServer()

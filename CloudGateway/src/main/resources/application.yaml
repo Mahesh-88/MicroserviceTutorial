@@ -48,6 +48,24 @@ spring:
               args:
                 redis-rate-limiter.replenishRate: 1
                 redis-rate-limiter.burstCapacity: 1
+        - id: PRODUCT-SERVICE-API-DOCS
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product-service/v3/api-docs
+          filters:
+            - RewritePath=/product-service/v3/api-docs, /v3/api-docs
+        - id: ORDER-SERVICE-API-DOCS
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/v3/api-docs
+          filters:
+            - RewritePath=/order-service/v3/api-docs, /v3/api-docs
+        - id: PAYMENT-SERVICE-API-DOCS
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/payment-service/v3/api-docs
+          filters:
+            - RewritePath=/payment-service/v3/api-docs, /v3/api-docs
 
 okta:
   oauth2:
@@ -56,3 +74,16 @@ okta:
     client-id: 0oa6cgklvwIS2SoFZ5d7
     client-secret: L_VPQB5XQX5QAhnxaDqA0IhWG-TImnVpaHW7ER33
     scopes: openid, email, profile, offline_access
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: product-service
+        url: /product-service/v3/api-docs
+      - name: order-service
+        url: /order-service/v3/api-docs
+      - name: payment-service
+        url: /payment-service/v3/api-docs
